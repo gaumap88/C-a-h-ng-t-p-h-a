@@ -29,5 +29,27 @@
 <script src="js/sync.js"></script>
 <script src="js/views.js"></script>
 <script src="js/app.js"></script>
+<script>
+/* Chẩn đoán: nếu sau 6 giây vẫn kẹt ở "Đang mở ứng dụng…" thì báo rõ thiếu gì */
+(function () {
+  var firstErr = '';
+  window.addEventListener('error', function (e) {
+    if (!firstErr) firstErr = (e.message || '') + (e.filename ? ' (' + e.filename.split('/').slice(-2).join('/') + ')' : '');
+  });
+  setTimeout(function () {
+    var r = document.getElementById('root');
+    if (!r || !r.querySelector('.boot p.muted')) return;
+    var need = ['APP_CONFIG', 'supabase', 'U', 'DB', 'XL', 'Sync', 'Views', 'App'];
+    var names = { APP_CONFIG: 'config.js', supabase: 'thư viện kết nối (cần Internet)', U: 'js/util.js', DB: 'js/idb.js', XL: 'js/xlsx-lite.js', Sync: 'js/sync.js', Views: 'js/views.js', App: 'js/app.js' };
+    var miss = need.filter(function (k) { return !window[k]; }).map(function (k) { return names[k]; });
+    var h = '<div class="card auth"><h1>Ứng dụng chưa mở được</h1>';
+    if (miss.length) h += '<p class="sub">Không tải được: <b>' + miss.join(', ') + '</b>.<br>Hãy kiểm tra các file này đã được tải lên đúng chỗ chưa (thư mục <b>js</b> nằm cùng cấp với index.html).</p>';
+    else h += '<p class="sub">Các file đã tải đủ nhưng ứng dụng không khởi động được.</p>';
+    if (firstErr) h += '<p class="mono">' + firstErr.replace(/</g, '&lt;') + '</p>';
+    h += '<button class="btn primary block" onclick="location.reload()">Tải lại</button></div>';
+    r.querySelector('.boot').innerHTML = h;
+  }, 6000);
+})();
+</script>
 </body>
 </html>
