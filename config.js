@@ -6,6 +6,6 @@
    TUYỆT ĐỐI KHÔNG dán khóa bí mật (service_role / secret) vào đây.
    ==================================================================== */
 window.APP_CONFIG = {
-  SUPABASE_URL: 'DAN_PROJECT_URL_VAO_DAY',
-  SUPABASE_ANON_KEY: 'DAN_KHOA_CONG_KHAI_VAO_DAY'
+  SUPABASE_URL: https://xophthgrzhcifnkukejd.supabase.co/rest/v1/,
+  SUPABASE_ANON_KEY: sb_publishable_SgSXpvvAzs621BfjQBWpZw_rmLgV6qn
 };
